@@ -1,15 +1,28 @@
 import React, { Component } from 'react';
-import MessageUser from './MessageUser.jsx';
-import MessageSystem from './MessageSystem.jsx';
 
 class MessageList extends Component {
   render() {
-    console.log('Rendering <MessageList/>');
+    const messages = this.props.messages.map((message) => {
+      if (message.type === 'user') {
+        return (
+          <div key={message.id} className="message">
+            <span className="message-username">{message.username}</span>
+            <span className="message-content">{message.content}</span>
+          </div>
+        );
+      } else if (message.type === 'system') {
+        return (
+          <div key={message.id} className="message system">
+             {message.content}
+          </div>
+        );
+      }
+    });
     return (
-      <main className="messages">
-        <MessageUser />
-        <MessageSystem />
-      </main>);
+      <div className="messages">
+        {messages}
+      </div>
+    );
   }
 }
 export default MessageList;
