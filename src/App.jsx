@@ -16,27 +16,23 @@ class App extends Component {
     this.socket = new WebSocket('ws://localhost:3001/');
     this.socket.addEventListener('open', (e) => {
       console.log("Connected to Server");
-      // console.log("event this", this);
     });
     this.socket.onmessage = (event) => {
       let incomingMessage = JSON.parse(event.data);
       if (!incomingMessage.type) {
-        console.log("new", incomingMessage);
         this.setState({count: incomingMessage})
-      } else {//moved from inside on enter becasue it isn't on enter.
+      } else {
       this.setState({ messages: this.state.messages.concat(incomingMessage) })
-      console.log("old", event);
-    }
+      } 
     }
     console.log("componentDidMount <App />");
   }
 
   onEnterMessage = (e) => {
     e.preventDefault;
-    const newMessage = { id: undefined, type: "user", username: this.state.currentUser.name, content: e};
+    const newMessage = { color: undefined, id: undefined, type: "user", username: this.state.currentUser.name, content: e};
     const messages = this.state.messages.concat(newMessage)
     this.socket.send(JSON.stringify(newMessage));
-    // this.setState({ messages: messages })
   }
   onEnterName = (e) => {
     e.preventDefault;
@@ -45,7 +41,6 @@ class App extends Component {
     const newUserUpdate = {type: "system", content: contentMessage};
     this.state.currentUser.name = newUser;
     this.socket.send(JSON.stringify(newUserUpdate));
-    console.log(newUserUpdate);
   }
   render() {
     console.log('Rendering <App/>');
