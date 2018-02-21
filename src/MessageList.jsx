@@ -4,10 +4,26 @@ class MessageList extends Component {
   render() {
     const messages = this.props.messages.map((message) => {
       if (message.type === 'user') {
+      let picture = [];
+      let textMessage = message.content;
+        if (message.content.match(/.(jpg|png|gif)/)) {
+          const joinMess = [];
+          const splitMess = message.content.split(" ");
+          for (let word of splitMess) {
+            if (word.match(/.(jpg|png|gif)$/)) {
+              picture.push(word);
+            } else {
+              joinMess.push(word);
+            } textMessage = joinMess.join(" ");
+          } 
+          // let contents = <img src={picture} />;
+          //message.content = joinMess.join(" ").concat(contents);
+           
+        } 
         return (
           <div key={message.id} className="message">
             <span className="message-username" style={{color: message.color}} >{message.username}</span>
-            <span className="message-content">{message.content}</span>
+            <span className="message-content" >{textMessage}<img src={picture} /></span>
           </div>
         );
       } else if (message.type === 'system') {
