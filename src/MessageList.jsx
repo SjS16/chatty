@@ -15,10 +15,7 @@ class MessageList extends Component {
             } else {
               joinMess.push(word);
             } textMessage = joinMess.join(" ");
-          } 
-          // let contents = <img src={picture} />;
-          //message.content = joinMess.join(" ").concat(contents);
-           
+          }     
         } 
         return (
           <div key={message.id} className="message">

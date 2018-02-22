@@ -1,13 +1,13 @@
 h1 {
   color: rgb(52, 127, 161);
 }
-@import url("https://fonts.googleapis.com/css?family=Merriweather:400,700,700i,900");
+@import url("https://fonts.googleapis.com/css?family=Merriweather:400,700,900");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
 
 body {
   background: white;
   color: black;
-  font-family: 'Open Sans', sans-serif;
+  font-family: 'Merriweather', serif;
   font-size: 14px;
   margin: 70px 0;
 }
@@ -26,6 +26,7 @@ body {
 .chatbar-message,
 .chatbar-username {
   border: 1px solid black;
+  border-radius: 3px;
   display: block;
   height: 40px;
   line-height: 40px;

@@ -36,7 +36,10 @@ class App extends Component {
   }
   onEnterName = (e) => {
     e.preventDefault;
-    const newUser = e;
+    let newUser = e;
+    if (newUser == "") {
+      newUser = "Anonymous";
+    }
     const contentMessage = this.state.currentUser.name + " has changed their name to " + newUser;
     const newUserUpdate = {type: "system", content: contentMessage};
     this.state.currentUser.name = newUser;
