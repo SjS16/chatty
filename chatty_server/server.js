@@ -23,43 +23,45 @@ const messages = [];
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
 
-    const color = colors[Math.floor(Math.random() * colors.length)];
+    const color = colors[Math.floor(Math.random() * 4)];
     console.log('Client connected');
     let clientCount = wss.clients.size;
     wss.clients.forEach(function each(client) {
-      client.send(clientCount)});
+      client.send(clientCount)
+    });
     for (const message of messages) {
-        ws.send(JSON.stringify(message));
+      ws.send(JSON.stringify(message));
     }
 
+    //When a client sends a message
     ws.on('message', function incoming(data) {
-        let newMessage = JSON.parse(data);
-        messages.push(newMessage);
-        while (messages.length > 5) {
-            messages.shift();
-        }
-        if (newMessage.type === "user") {
-            newMessage.id = uuidv4();
-            newMessage.color = color;
-            wss.clients.forEach(function each(client) {
-                if (client.readystate === SocketServer.OPEN) {
-                    client.send(JSON.stringify(newMessage));
-                }
-            })
-        } else if (newMessage.type === "system") {
-            wss.clients.forEach(function each(client) {
-                if (client.readystate === SocketServer.OPEN) {
-                    client.send(JSON.stringify(newMessage));
-                }
-            })
-        }
+      let newMessage = JSON.parse(data);
+      messages.push(newMessage);
+      while (messages.length > 5) {
+        messages.shift();
+      }
+      if (newMessage.type === "user") {
+        newMessage.id = uuidv4();
+        newMessage.color = color;
+        wss.clients.forEach(function each(client) {
+          if (client.readystate === SocketServer.OPEN) {
+            client.send(JSON.stringify(newMessage));
+          }
+        })
+      } else if (newMessage.type === "system") {
+        wss.clients.forEach(function each(client) {
+          if (client.readystate === SocketServer.OPEN) {
+            client.send(JSON.stringify(newMessage));
+          }
+        })
+      }
     });
+
     // Set up a callback for when a client closes the socket. This usually means they closed their browser.
     ws.on('close', () => {console.log('Client disconnected')
       let clientCount = wss.clients.size;
-        wss.clients.forEach(function each(client) {
-          client.send(clientCount)
-        });
-});
-
+      wss.clients.forEach(function each(client) {
+        client.send(clientCount)
+      });
+    });
 });

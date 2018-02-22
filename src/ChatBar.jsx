@@ -5,7 +5,6 @@ class Chatbar extends Component {
     let chatMessage = e.target.value;
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log(chatMessage);
       this.props.onEnterMessage(chatMessage);
       e.target.value = '';
     }
@@ -15,7 +14,6 @@ class Chatbar extends Component {
     let newUserName = e.target.value;
     if (e.key === 'Enter') {
       e.preventDefault();
-      console.log(newUserName)
       this.props.onEnterName(newUserName);
       e.target.value = newUserName;
     }
