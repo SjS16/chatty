@@ -16,6 +16,7 @@ const server = express()
 // Create the WebSockets server
 const wss = new SocketServer({ server });
 const colors = ['#00ffff', '#7fffd4', '#008080', '#1e90ff'];
+const messages = [];
 
 // Set up a callback that will run when a client connects to the server
 // When a client connects they are assigned a socket, represented by
@@ -26,8 +27,16 @@ wss.on('connection', (ws) => {
     let clientCount = wss.clients.size;
     wss.clients.forEach(function each(client) {
       client.send(clientCount)});
+    for (const message of messages) {
+        ws.send(JSON.stringify(message));
+    }
+
     ws.on('message', function incoming(data) {
         let newMessage = JSON.parse(data);
+        messages.push(newMessage);
+        while (messages.length > 5) {
+            messages.shift();
+        }
         if (newMessage.type === "user") {
             newMessage.id = uuidv4();
             newMessage.color = color;
